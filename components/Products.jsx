@@ -31,8 +31,9 @@ export default function Products() {
     <div className='grid grid-flow-row grid-cols-4 gap-6 py-4 px-12'>
       {products.map((product)=>(
         <div key={product.id} className='flex flex-col items-center justify-center'>
-            <Link href={`/product/${product?._id}`}>
-                <div className='flex flex-col justify-between w-fit h-96 bg-gray-200 hover:shadow-md hover:shadow-gray-400 rounded'>
+            
+                <div className='flex flex-col w-fit h-96 bg-gray-200 hover:shadow-md hover:shadow-gray-400 rounded'>
+                <Link href={`/product/${product?._id}`} className='w-full h-72'>
                     <div className='w-full h-72'>
                         {product.image 
                         ? <Image src={product.image} alt='img' width={200} height={200} className='object-cover rounded w-auto h-auto'/>
@@ -40,14 +41,19 @@ export default function Products() {
                         }
                         
                     </div>
+                </Link>
+                    <div className='flex flex-col w-full h-24 rounded-b bg-gray-300 p-1 px-2'>
+                        <span className='text-gray-900 text-md'>{product.name}</span>
 
-                    <div className='flex flex-col bg-gray-200'>
-                    <span className='p-1 text-gray-900 text-lg font-semibold'>{product.name}</span>
-                    <span className='p-1 text-gray-700 text-lg font-semibold'>$ {' '} {product.price}</span>
+                        <span className='text-gray-700 text-md'>$ {' '} {product.price}</span>
+
+                        <button className='p-1 bg-blue-400 hover:bg-gray-400 w-full flex justify-center rounded text-gray-100'>
+                            Add to cart
+                        </button>
                     </div>
                     
                 </div>
-            </Link>
+           
             
 
         </div>

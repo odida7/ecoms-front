@@ -20,6 +20,10 @@ export default async function Navbar() {
       <div className='flex flex-row items-center gap-3'>
         <span>{session?.user?._doc?.username}</span>
 
+        <Link href='/cart'>
+          <span>cart</span>
+        </Link>
+
         <button onClick={signOut}>Logout</button>
       </div>
       
