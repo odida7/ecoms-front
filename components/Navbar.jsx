@@ -1,11 +1,15 @@
-import { auth } from '@/app/auth'
-import { signOut } from 'next-auth/react'
+'use client'
+
+import { CartContext } from '@/lib/context/cartContext'
+import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
-import React from 'react'
+import React, { useContext } from 'react'
 
-export default async function Navbar() {
+export default function Navbar() {
 
-    const session = await auth()
+    const {data: session} = useSession()
+    const { cartProducts } = useContext(CartContext)
+    
 
   return (
     <div  className='flex flex-row items-center justify-between px-8 py-3 bg-blue-500 text-white'>
@@ -20,8 +24,9 @@ export default async function Navbar() {
       <div className='flex flex-row items-center gap-3'>
         <span>{session?.user?._doc?.username}</span>
 
-        <Link href='/cart'>
-          <span>cart</span>
+        <Link href='/cart' className='flex flex-row relative p-2'>
+          <span>carts</span>
+          <span className='bg-red-500 rounded-full absolute top-0 right-0 text-xs font-light w-auto h-auto'>{cartProducts.length}</span>
         </Link>
 
         <button onClick={signOut}>Logout</button>

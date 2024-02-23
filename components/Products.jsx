@@ -1,13 +1,29 @@
 'use client'
 
+import { CartContext} from '@/lib/context/cartContext';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { GiEmptyHourglass } from "react-icons/gi";
+import toast from "react-hot-toast";
 
-export default function Products() {
+
+export default function Products({product}) {
 
     const [products, setProducts] = useState([]);
+     const { addProduct } = useContext(CartContext);
+     
+   /*  const addToCartHandler = () => {
+        addItemToCart({
+          product: product._id,
+          name: product.name,
+          price: product.price,
+          image: product.images[0].url,
+          stock: product.stock,
+          seller: product.seller,
+        });
+  };
+    */  
 
     
     useEffect(()=>{
@@ -25,7 +41,6 @@ export default function Products() {
         fetchProducts();
     }, [])
 
-  
 
   return (
     <div className='grid grid-flow-row grid-cols-4 gap-6 py-4 px-12'>
@@ -47,7 +62,12 @@ export default function Products() {
 
                         <span className='text-gray-700 text-md'>$ {' '} {product.price}</span>
 
-                        <button className='p-1 bg-blue-400 hover:bg-gray-400 w-full flex justify-center rounded text-gray-100'>
+                        <button
+                          onClick={() => {
+                            addProduct(product)
+                            toast.success('Item added to cart!!')
+                          }}
+                           className='p-1 bg-blue-400 hover:bg-gray-400 w-full flex justify-center rounded text-gray-100'>
                             Add to cart
                         </button>
                     </div>
@@ -60,4 +80,6 @@ export default function Products() {
       ))}
     </div>
   )
+ 
+
 }
