@@ -5,7 +5,7 @@ import { connectDB } from "@/lib/mongoose"
 
 
 
-export async function GET(){
+export async function GET(){  
     try{
         await connectDB();
         const allProducts = await Products.find();
