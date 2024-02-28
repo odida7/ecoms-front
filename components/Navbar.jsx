@@ -1,6 +1,5 @@
 'use client'
 
-import { CartContext } from '@/lib/context/cartContext'
 import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import React, { useContext } from 'react'
@@ -8,7 +7,7 @@ import React, { useContext } from 'react'
 export default function Navbar() {
 
     const {data: session} = useSession()
-    const { cartProducts } = useContext(CartContext)
+  
     
 
   return (
@@ -26,7 +25,7 @@ export default function Navbar() {
 
         <Link href='/cart' className='flex flex-row relative p-2'>
           <span>carts</span>
-          <span className='bg-red-500 rounded-full absolute top-0 right-0 text-xs font-light w-auto h-auto'>{cartProducts.length}</span>
+          <span className='bg-red-500 rounded-full absolute top-0 right-0 text-xs font-light w-auto h-auto'>0</span>
         </Link>
 
         <button onClick={signOut}>Logout</button>

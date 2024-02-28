@@ -1,6 +1,5 @@
 'use client'
 
-import { CartContext} from '@/lib/context/cartContext';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react'
@@ -11,7 +10,7 @@ import toast from "react-hot-toast";
 export default function Products({product}) {
 
     const [products, setProducts] = useState([]);
-     const { addProduct } = useContext(CartContext);
+
      
    /*  const addToCartHandler = () => {
         addItemToCart({
@@ -64,7 +63,6 @@ export default function Products({product}) {
 
                         <button
                           onClick={() => {
-                            addProduct(product)
                             toast.success('Item added to cart!!')
                           }}
                            className='p-1 bg-blue-400 hover:bg-gray-400 w-full flex justify-center rounded text-gray-100'>
