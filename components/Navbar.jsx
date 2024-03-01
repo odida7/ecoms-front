@@ -3,13 +3,14 @@
 import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import React, { useContext } from 'react'
+import { useSelector } from 'react-redux'
 
 export default function Navbar() {
 
     const {data: session} = useSession()
-  
+    const cartItems = useSelector((state) => state.cart);
     
-
+    
   return (
     <div  className='flex flex-row items-center justify-between px-8 py-3 bg-blue-500 text-white'>
 
@@ -25,7 +26,7 @@ export default function Navbar() {
 
         <Link href='/cart' className='flex flex-row relative p-2'>
           <span>carts</span>
-          <span className='bg-red-500 rounded-full absolute top-0 right-0 text-xs font-light w-auto h-auto'>0</span>
+          <span className='bg-red-500 rounded-full absolute top-0 right-0 text-xs font-light w-auto h-auto'>{cartItems.length}</span>
         </Link>
 
         <button onClick={signOut}>Logout</button>

@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "../globals.css";
 import AuthProvider from "@/components/AuthProvider";
 import Navbar from "@/components/Navbar";
+import Providers from "../redux/Provider";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,15 +19,18 @@ export default function RootLayout({ children }) {
       
         <html lang="en">
          <body className={inter.className}>
-          
-          <div className='flex flex-col'>
+          <Providers>
+             <div className='flex flex-col'>
             <Navbar/>
 
-          <div>
-            {children}
-          </div> 
+            <div>
+             {children}
+            </div> 
 
-          </div>
+           </div>
+          </Providers>
+          
+         
        
          </body>
         </html>

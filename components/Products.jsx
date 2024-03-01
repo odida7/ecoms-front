@@ -9,22 +9,7 @@ import toast from "react-hot-toast";
 
 export default function Products({product}) {
 
-    const [products, setProducts] = useState([]);
-
-     
-   /*  const addToCartHandler = () => {
-        addItemToCart({
-          product: product._id,
-          name: product.name,
-          price: product.price,
-          image: product.images[0].url,
-          stock: product.stock,
-          seller: product.seller,
-        });
-  };
-    */  
-
-    
+    const [products, setProducts] = useState([]);    
     useEffect(()=>{
         const fetchProducts= async()=>{
             try{
@@ -39,6 +24,10 @@ export default function Products({product}) {
         }
         fetchProducts();
     }, [])
+
+   function handleAddItemtoCart(){
+
+   }
 
 
   return (
@@ -62,9 +51,10 @@ export default function Products({product}) {
                         <span className='text-gray-700 text-md'>$ {' '} {product.price}</span>
 
                         <button
-                          onClick={() => {
-                            toast.success('Item added to cart!!')
-                          }}
+                          onClick={() =>
+                            handleAddItemtoCart()
+              
+                          }
                            className='p-1 bg-blue-400 hover:bg-gray-400 w-full flex justify-center rounded text-gray-100'>
                             Add to cart
                         </button>
