@@ -4,10 +4,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react'
 import { GiEmptyHourglass } from "react-icons/gi";
-import toast from "react-hot-toast";
+import AddProduct from './AddProduct';
 
 
-export default function Products({product}) {
+export default function Products() {
 
     const [products, setProducts] = useState([]);    
     useEffect(()=>{
@@ -24,10 +24,6 @@ export default function Products({product}) {
         }
         fetchProducts();
     }, [])
-
-   function handleAddItemtoCart(){
-
-   }
 
 
   return (
@@ -50,14 +46,7 @@ export default function Products({product}) {
 
                         <span className='text-gray-700 text-md'>$ {' '} {product.price}</span>
 
-                        <button
-                          onClick={() =>
-                            handleAddItemtoCart()
-              
-                          }
-                           className='p-1 bg-blue-400 hover:bg-gray-400 w-full flex justify-center rounded text-gray-100'>
-                            Add to cart
-                        </button>
+                        <AddProduct product={product}/>
                     </div>
                     
                 </div>

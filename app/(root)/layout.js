@@ -3,6 +3,7 @@ import "../globals.css";
 import AuthProvider from "@/components/AuthProvider";
 import Navbar from "@/components/Navbar";
 import Providers from "../redux/Provider";
+import { Toaster } from "react-hot-toast";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,6 +22,7 @@ export default function RootLayout({ children }) {
          <body className={inter.className}>
           <Providers>
              <div className='flex flex-col'>
+              <Toaster position='top center' reverseOrder={false}/>
             <Navbar/>
 
             <div>
