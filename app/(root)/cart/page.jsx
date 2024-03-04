@@ -38,6 +38,7 @@ export default function page() {
     <div className=' flex flex-row items-center justify-center'>
       <div className='w-1/2 h-screen'>
          <h1 className='w-full p-2 flex justify-center text-xl text-gray-700 font-semibold'>Cart</h1>
+      
           {cartItems.map((item, i)=>(
             <div key={i} className='flex flex-row m-4 justify-between'>
               <div className='flex flex-row p-2 items-center gap-3'>

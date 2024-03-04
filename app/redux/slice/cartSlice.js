@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-//Create Initial State
+// Create Initial State
 const initialState = [];
 
-//Create the slice with Reducers
+// Create the slice with Reducers
 const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -11,23 +11,24 @@ const cartSlice = createSlice({
     addToCart: (state, action) => {
       const { _id, name, price, image } = action.payload;
       // Check if the item already exists in the cart
-      const existingItem = state.find((item) => item._id === _id);
+      const existingItemIndex = state.findIndex((item) => item._id === _id);
 
-      if (existingItem) {
+      if (existingItemIndex !== -1) {
         // If the item exists, update the quantity
-        existingItem.qty += 1;
+        state[existingItemIndex].qty += 1;
       } else {
         // If the item doesn't exist, add it to the cart
         state.push({ _id, name, price, qty: 1, image });
       }
+    
     },
 
-       removeFromCart: (state, action) => {
+    removeFromCart: (state, action) => {
       const cartId = action.payload;
       return state.filter((item) => item._id !== cartId);
     },
 
-     incrementQty: (state, action) => {
+    incrementQty: (state, action) => {
       const cartId = action.payload;
       const cartItem = state.find((item) => item._id === cartId);
       if (cartItem) {
@@ -35,15 +36,19 @@ const cartSlice = createSlice({
       }
     },
 
-      decrementQty: (state, action) => {
-        const cartId = action.payload;
-        const cartItem = state.find((item) => item._id === cartId);
-        if (cartItem && cartItem.qty > 1) {
+    decrementQty: (state, action) => {
+      const cartId = action.payload;
+      const cartItem = state.find((item) => item._id === cartId);
+      if (cartItem && cartItem.qty > 1) {
         cartItem.qty -= 1;
-      } 
+      }
+    },
   },
-}});
+});
 
-//export the reducers(actions)
-export const { addToCart, removeFromCart, incrementQty, decrementQty} = cartSlice.actions;
-export default cartSlice.reducer;
+// export the reducers(actions)
+export const { addToCart, removeFromCart, incrementQty, decrementQty } =
+  cartSlice.actions;
+
+// Export the reducer
+export const cartReducer = cartSlice.reducer;

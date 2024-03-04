@@ -2,7 +2,6 @@
 
 import { addToCart } from '@/app/redux/slice/cartSlice';
 import React from 'react'
-//import toast from "react-hot-toast";
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 
@@ -12,7 +11,8 @@ export default function AddProduct({product}) {
     
 
     function handleAddItemtoCart(){
-        dispatch(addToCart(product))
+        //const { _id, name, price, image } = product;
+        dispatch(addToCart( product ))
         toast.success('Added successfully');
    }
 
