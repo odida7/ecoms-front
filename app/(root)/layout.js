@@ -2,8 +2,8 @@ import { Inter } from "next/font/google";
 import "../globals.css";
 import AuthProvider from "@/components/AuthProvider";
 import Navbar from "@/components/Navbar";
-import Providers from "../redux/Provider";
 import { Toaster } from "react-hot-toast";
+import Providers from "@/lib/redux/Provider";
 
 
 const inter = Inter({ subsets: ["latin"] });

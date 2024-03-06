@@ -1,6 +1,7 @@
 'use client'
 
-import { decrementQty, incrementQty, removeFromCart } from '@/app/redux/slice/cartSlice';
+import { removeFromCart, decrementQty, incrementQty } from '@/lib/redux/slice/cartSlice';
+
 import { current } from '@reduxjs/toolkit';
 import Image from 'next/image';
 import Link from 'next/link';

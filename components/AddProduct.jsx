@@ -1,6 +1,6 @@
 'use client'
 
-import { addToCart } from '@/app/redux/slice/cartSlice';
+import { addToCart } from '@/lib/redux/slice/cartSlice';
 import React from 'react'
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
@@ -8,10 +8,10 @@ import { useDispatch } from 'react-redux';
 
 export default function AddProduct({product}) {
     const dispatch = useDispatch()
-    
+       
 
     function handleAddItemtoCart(){
-        //const { _id, name, price, image } = product;
+        //const { _id, name, price, image, qty: '' } = product;
         dispatch(addToCart( product ))
         toast.success('Added successfully');
    }

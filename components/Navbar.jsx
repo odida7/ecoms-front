@@ -2,7 +2,7 @@
 
 import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
-import React, { useContext } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 
 export default function Navbar() {
