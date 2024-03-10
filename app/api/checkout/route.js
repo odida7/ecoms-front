@@ -1,57 +1,67 @@
-import Products from '@/lib/models/Products';
+//import Products from '@/lib/models/Products';
 import Orders from '@/lib/models/order';
 import { connectDB } from '@/lib/mongoose';
+import Stripe from 'stripe';
 
-const stripe = require('stripe')(process.env.STRIPE_KEY);
+const stripe = new Stripe(process.env.STRIPE_KEY);
 
-export async function POST(req, res) {
- 
-
-  const { email, username, address, city, state, zip, cartItems, totalPrice } = req.body;
+export async function POST(request) {
+  const {username, email, address, city, state, zip } = await request.json();
+  
 
   await connectDB();
 /*
-  const productIds = cartItems;
-  const uniqueIds = [... new Set(productIds)];
-  const productsInfo = await Products.find({ _id: uniqueIds });
-
-  let line_items = [];
-
-  for (const productId of uniqueIds) {
-    const productInfo = productsInfo.find(p => p._id.toString() === productId);
-
-    const quantity = productIds.filter(id => id === productId)?.length || 0;
-
-    if (quantity > 0 && productInfo) {
-      line_items.push(
-        {
-          quantity,
-          price_data: {
-            currency: 'KES',
-            product_data: { username: productInfo.title },
-            unit_amount: quantity * productInfo.price * 100 ,
-          },
-
-        }
-      )
-    }
-  }
+  const line_items = items.map(item => ({
+    price_data: {
+      currency: 'usd',
+      product_data: {
+        name: item.name,
+        images: [item.image],
+        metadata: { productId: item.product },
+      },
+      unit_amount: item.price * 100,
+    },
+    quantity: item.quantity,
+  }));
 */
-  const orderDoc = await Orders.create({
-     email, username, address, city, state, zip, cartItems, totalPrice, paid: false
-  })
+  try {
+    // Create an order document in your database
+    const orders = await Orders.create({
+      username,
+      email, 
+      address, 
+      city, 
+      state, 
+      zip
+    });
 
-  const session = await stripe.checkout.sessions.create({
-    email, username, address, city, state, zip, cartItems, totalPrice,
-    mode: 'payment',
-    customer_email: email,
-    success_url: process.env.SUCCESS_URL + '/cart?success=1',
-    cancel_url: process.env.SUCCESS_URL + '/cart?canceled=1',
-    metadata: { orderId: orderDoc._id.toString(), test: 'ok' }
-  })
+    return new Response(JSON.stringify(orders), {
+      status: 200,
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  }) 
 
-  res.json({
-    url: session.url,
-  })
+    // Create a Stripe checkout session
+   /* const session = await stripe.checkout.sessions.create({
+      line_items,
+      payment_method_types: ['card'],
+      mode: 'payment',
+      customer_email: shippingInfo.email, // Assuming email is in shippingInfo
+      success_url: `${process.env.SUCCESS_URL}/cart?success=1`,
+      cancel_url: `${process.env.SUCCESS_URL}/cart?canceled=1`,
+      metadata: { orderId: orderDoc._id.toString(), shippingInfo },
+    });
 
+    // Return the URL of the checkout session to the client
+    res.json({ url: session.url });
+
+    */
+  } catch (error) {
+    console.log(error.message)
+    return new Response(error.message, {
+        status: 500
+    })
+  }
+  
 }

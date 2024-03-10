@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 //import { current } from '@reduxjs/toolkit';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,14 +15,15 @@ import { useDispatch, useSelector } from 'react-redux';
 export default function page() {
   const {data: session} = useSession()
   const user = session?.user?._doc
-  console.log('session:', user)
+ 
+  const router = useRouter();
 
   //const [products, setProducts] = useState([]);
   const [address, setAddress] = useState('');
   //const [email, setEmail] = useState('');
   //const [name, setName] = useState(''); 
   const [city, setCity] = useState('');   
-  const [country, setCountry] = useState('');
+  const [state, setState] = useState('');
   const [zip, setZip] = useState('');
  // const [loading, setLoading] = useState(true);
  
@@ -42,7 +44,7 @@ export default function page() {
 
 
    const cartItems = useSelector((state) => state.cart);
-     console.log(cartItems)
+    
 
      const totalPrice = cartItems.reduce((acc, currentItem) =>{
       return acc + (currentItem.price * currentItem.qty);
@@ -73,38 +75,57 @@ export default function page() {
 
 
      async function stripeCheckout() {
-
       const cartProducts = {
-        email: user?.email, 
-        username: user?.username, 
-        address, 
-        country, 
-        zip, 
-        city, 
-        cartItems,
-        totalPrice
-      }
-
-      const response = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(cartProducts),
-      });
-  
-      if (response?.data?.url) {
-        window.location = response.data.url
-      } else {
-        toast.error('An error occured!!')
-        console.log('error:', response.error)
+        email: user?.email,
+        username: user?.username,
+        address,
+        state,
+        zip,
+        city,
+        cartItems: cartItems?.map(item => ({
+          // Map each item to include necessary properties
+          _id: item._id,
+          name: item.name,
+          price: item.price,
+          image: item.image,
+          quantity: item.qty // Assuming quantity is stored in 'qty' property
+        }))
+      };
+    
+      try {
+        const response = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(cartProducts),
+        });
+    
+        if (response.ok) {
+          const responseData = await response.json(); // Parse JSON response
+          if (responseData && responseData.url) {
+            window.location = responseData.url; // Redirect to checkout URL
+          } else {
+            toast.error('An error occurred!!');
+            console.error('Error:', responseData.error); // Log error message
+          }
+        } else {
+          // Throw an error if response status is not in the success range
+          throw new Error('Failed to fetch');
+        }
+      } catch (error) {
+        // Handle any errors that occur during the fetch operation
+        console.error('Error:', error.message);
+        toast.error('An error occurred!!');
       }
     }
-  
+    
+
     if (isSuccess) {
       return <>
         <Success />
       </>
-    }
-
+    } 
+  
+  
   return (
     <div className=' flex flex-row items-center justify-center'>
 
@@ -239,8 +260,8 @@ export default function page() {
                   <div class="col-span-4">
                     <label class="mb-1 block text-sm font-medium text-text">State</label>
                     <input type="text" name="state" class="block w-full rounded-md p-3 border border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500" placeholder=""
-                      value={country}
-                      onChange={ev => setCountry(ev.target.value)}
+                      value={state}
+                      onChange={ev => setState(ev.target.value)}
                       required
                     />
                   </div>
