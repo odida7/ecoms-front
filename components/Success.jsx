@@ -1,6 +1,15 @@
+'use client'
+
+import { clearCart } from "@/lib/redux/slice/cartSlice";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
 
 export default function Success() {
+  const dispatch = useDispatch();
+
+  function handleClear(){
+    dispatch(clearCart())
+  }
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md">
@@ -27,10 +36,13 @@ export default function Success() {
           <p className="text-gray-600 mt-2 max-w-sm">
             Your order has been received and is being processed. We&apos;ll send you an email with more details.
           </p>
-          <Link href="/products"
-             className="block mt-4 text-sm font-medium text-white bg-primary py-2 px-4 rounded-md hover:bg-primary-dark focus:outline-none focus:ring"
-             >
-              Continue Shopping
+          <Link href="/">
+              <button
+                onClick={()=>handleClear()} 
+                className="mt-4 text-sm font-medium text-white bg-green-500 py-2 px-4 rounded-md">
+                Continue Shopping
+              </button>
+              
           </Link>
         </div>
       </div>

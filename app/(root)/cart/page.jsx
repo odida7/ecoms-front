@@ -99,31 +99,27 @@ export default function page() {
           body: JSON.stringify(cartProducts),
         });
     
-        if (response.ok) {
+        
           const responseData = await response.json(); // Parse JSON response
-          if (responseData && responseData.url) {
-            window.location = responseData.url; // Redirect to checkout URL
-          } else {
-            toast.error('An error occurred!!');
-            console.error('Error:', responseData.error); // Log error message
-          }
-        } else {
-          // Throw an error if response status is not in the success range
-          throw new Error('Failed to fetch');
-        }
+         
+            window.location.href = responseData.url; // Redirect to checkout URL
+        
+      
       } catch (error) {
         // Handle any errors that occur during the fetch operation
         console.error('Error:', error.message);
         toast.error('An error occurred!!');
       }
-    }
-    
 
-    if (isSuccess) {
-      return <>
-        <Success />
-      </>
-    } 
+    
+    }
+      if (isSuccess) {
+        return <>
+         <Success />
+        </>
+       } 
+
+    
   
   
   return (
